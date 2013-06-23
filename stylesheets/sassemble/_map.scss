@@ -1,0 +1,52 @@
+@charset 'utf-8';
+// Adds multi-dimensional maps (object trees) to Sass.
+
+@include require(sassemble list, sassemble hash);
+@include provide(sassemble map);
+
+@function map($object: null) {
+	@return list($object);
+}
+
+@function map-get($map, $path, $default: null) {
+	@each $node in $path {
+		@if empty($map) or $map == -sasm-null {
+			@return $default;
+		}
+		
+		$map: hash-get($map, $node, -sasm-null);
+	}
+	
+	@if $map == -sasm-null {
+		@return $default;
+	}
+	
+	@return $map;
+}
+
+@function map-set($map, $path, $value) {
+	@if empty($path) {
+		@return $map;
+	}
+	
+	@if length($path) > 1 {
+		@return hash-set($map, first($path), map-set(map-get($map, first($path), ()), from($path, 2), $value));
+	}
+	
+	@return hash-set($map, first($path), $value);
+}
+
+@include assertions(sassemble map, framework) {
+	$m: map();
+	@include assert('map() creates an empty map per empty().', empty($m));
+	
+	$m: map-set($m, a b c d, 1);
+	$m: map-set($m, g h, 2);
+	@include assert('map-get() and map-set() work in simple cases.', map-get($m, a b c d) == 1);
+	@include assert('map-get() and map-set() work in simple cases.', map-get($m, g h) == 2);
+	
+	
+	$m: map-set($m, a b, 3);
+	@include assert('Map entries can be overwritten.', map-get($m, a b) == 3);
+	@include assert('There are no residual map entries.', map-get($m, a b c d, false) == false);
+}

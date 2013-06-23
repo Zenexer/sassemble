@@ -1,0 +1,32 @@
+@charset 'utf-8';
+// Provides dependency resolution.
+
+$-sasm-depend-dependencies: () !default;
+
+@mixin -sasm-depend-on-provide {
+	@include provide(sassemble depend);
+}
+
+// Fail-fast mechanism.
+@mixin error($message) {
+	@warn '#{$message}';
+	$-local-throw-error: $-local-throw-error;
+}
+
+@mixin provide($modules...) {
+	@each $module in $modules {
+		@if not index($-sasm-depend-dependencies, $module) {
+			$-sasm-depend-dependencies: append($-sasm-depend-dependencies, $module);
+		}
+	}
+}
+
+@mixin require($modules...) {
+	@each $module in $modules {
+		@if not index($-sasm-depend-dependencies, $module) {
+			@include error('Required module (#{$module}) is missing.');
+		}
+	}
+}
+
+@include -sasm-depend-on-provide;

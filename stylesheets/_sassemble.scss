@@ -1,0 +1,18 @@
+@charset 'utf-8';
+// Bootstraps the Sassemble framework.
+
+// Required for dependency system to function.
+@import 'sassemble/depend';
+
+// Compass modules.
+@import 'compass/utilities/general';
+@include provide(compass utilities general);
+
+// Internal modules.
+@import
+	'sassemble/assert',
+	'sassemble/list',
+	'sassemble/hash',
+	'sassemble/map';
+
+@include provide(sassemble);

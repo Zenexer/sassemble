@@ -1,0 +1,32 @@
+@charset 'utf-8';
+// Compile-time assertions.
+
+@include provide(sassemble assert);
+
+$assertions-enabled: true !default;
+$framework-assertions-enabled: false !default;
+
+$framework-assertions-enabled: $framework-assertions-enabled and $assertions-enabled;
+
+$-sasm-assert-source: null;
+
+@mixin fail($description, $condition: true, $source: $-sasm-assert-source) {
+	@if $condition {
+		@include error('Assertion failure in (#{space-list($source)}): #{$description}');
+	}
+}
+
+@mixin assert($description, $condition, $source: $-sasm-assert-source) {
+	@include fail($description, $assertions-enabled and not $condition, $source);
+}
+
+@mixin assert-framework($description, $condition, $source: $-sasm-assert-source) {
+	@include fail($description, $assertions-enabled and $framework-assertions-enabled and not $condition, $source);
+}
+
+@mixin assertions($source, $type: null) {
+	@if ($type != framework or $framework-assertions-enabled) and $assertions-enabled {
+		$-sasm-assert-source: $source;
+		@content;
+	}
+}

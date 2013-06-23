@@ -1,0 +1,67 @@
+@charset 'utf-8';
+// Adds one-dimensional hash maps to Sass.
+
+@include require(sassemble list);
+@include provide(sassemble hash);
+
+@function hash($object: null) {
+	@return list($object);
+}
+
+@function hash-index($hash, $key, $default: false) {
+	@if empty($hash) {
+		@return $default;
+	}
+	
+	$length: length($hash);
+	
+	@for $index from 1 through $length {
+		@if first(list-get($hash, $index)) == $key {
+			@return $index;
+		}
+	}
+	
+	@return $default;
+}
+
+@function hash-get($hash, $key, $default: null) {
+	@if empty($hash) {
+		@return $default;
+	}
+	
+	@each $set in $hash {
+		@if first($set) == $key {
+			@return list-get($set, 2);
+		}
+	}
+	
+	@return $default;
+}
+
+@function hash-set($hash, $key, $value) {
+	$index: hash-index($hash, $key);
+	$set: list($key $value);
+	
+	@if $index {
+		@return list-set($hash, $index, $set);
+	}
+	
+	@return append($hash, $set);
+}
+
+@include assertions(sassemble hash, framework) {
+	$hash: hash();
+	@include assert('empty(hash()) is true.', empty($hash));
+	
+	$hash: hash-set($hash, alpha, 1);
+	$hash: hash-set($hash, beta, 2);
+	@include assert('Non-empty array returns false when passed to empty().', not empty($hash));
+	@include assert('Retrieve correct entries from hash.  (#{hash-get($hash, alpha)})', hash-get($hash, alpha) == 1);
+	@include assert('Retrieve correct entries from hash.  (#{hash-get($hash, beta)})', hash-get($hash, beta) == 2);
+	
+	$index: hash-index($hash, alpha);
+	@include assert('Determine index of key.  (#{$index})', $index == 1);
+	
+	$hash: hash-set($hash, alpha, a);
+	@include assert('Overwrite a hash entry.  (#{hash-get($hash, alpha)})', hash-get($hash, alpha) == a);
+}

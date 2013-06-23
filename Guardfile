@@ -6,6 +6,9 @@ guard 'bundler' do
 end
 
 guard 'compass' do
-	watch %r{^sass/(.*)\.s[ac]ss$}
+	watch %r{^lib/$}
+	watch %r{^stylesheets/$}
+	watch %r{^templates/$}
+	watch %r{^test/sass/(.*)\.s[ac]ss$}
 	watch /^config\.rb$/
 end

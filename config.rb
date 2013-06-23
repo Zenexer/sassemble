@@ -1,5 +1,7 @@
-# Plugins
-# End Plugins
+sassemble_lib_path = File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
+$:.unshift(sassemble_lib_path) unless $:.include?(sassemble_lib_path) 
+
+require 'sassemble'
 
 # Note that these settings only affect development preview code, and have no effect
 # on the output of implementing applications.  Therefore, these settings are
@@ -8,10 +10,10 @@ environment = :development;
 
 # Set this to the root of your project when deployed:
 http_path = "/"
-sass_dir = 'sass'
-css_dir = 'tmp/css'
-images_dir = 'tmp/images'
-javascripts_dir = 'tmp/js'
+sass_dir = 'test/sass'
+css_dir = 'test/log/stylesheets'
+images_dir = 'test/log/images'
+javascripts_dir = 'test/log/javascripts'
 
 # Preferred output style; can be overridden via command line.
 # output_style = :expanded or :nested or :compact or :compressed

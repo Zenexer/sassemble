@@ -1,0 +1,150 @@
+@charset 'utf-8';
+// Improves usability of Sass lists.
+
+@include provide(sassemble list);
+
+@function empty($values...) {
+	@each $value in $values {
+		@if $value and length($value) > 0 {
+			@return false;
+		}
+	}
+	
+	@return true;
+}
+
+@function list($object: null, $separator: auto) {
+	@if empty($object) {
+		@return ();
+	}
+	
+	@return join($object, (), $separator);
+}
+
+@function comma-list($list: null) {
+	@return list($list, comma);
+}
+
+@function space-list($list: null) {
+	@return list($list, space);
+}
+
+@function list-get($list, $index, $default: null) {
+	@if not $list or length($list) < $index {
+		@return $default;
+	}
+	
+	@return nth($list, $index);
+}
+
+@function first($list, $default: null) {
+	@return list-get($list, 1, $default);
+}
+
+@function last($list, $default: null) {
+	@if empty($list) {
+		@return $default;
+	}
+	@else {
+		@return list-get($list, length($list), $default);
+	}
+}
+
+@function split($list, $count) {
+	@if empty($list) {
+		@return (() ());
+	}
+	
+	$length: length($list);
+	
+	@if $count < 0 {
+		$count: $length + $count;
+	}
+	@if $count >= $length {
+		@return $list;
+	}
+	@if $count < 1 {
+		@return (() $list);
+	}
+	
+	$list1: ();
+	$list2: ();
+	
+	@for $i from 1 through $count {
+		$list1: append($list1, nth($list, $i));
+	}
+	
+	@for $i from $count + 1 through $length {
+		$list2: append($list2, nth($list, $i));
+	}
+	
+	@return ($list1 $list2);
+}
+
+@function from($list, $start) {
+	@if empty($list) {
+		@return ();
+	}
+	
+	$length: length($list);
+	
+	@if $start < 0 {
+		$start: $length + $start;
+	}
+	@if $start > $length {
+		@return ();
+	}
+	@if $start <= 1 {
+		@return $list;
+	}
+	
+	$list2: ();
+	
+	@for $i from $start through $length {
+		$list2: append($list2, nth($list, $i));
+	}
+	
+	@return $list2;
+}
+
+@function list-set($list, $index, $value) {
+	$result: ();
+	$length: length($list);
+	
+	@if not $list or not $index or not $value {
+		@warn '$list, $index, and/or $value is not set.';
+		@return if($list, $list, ());
+	}
+	
+	@if $index < 0 {
+		@warn '$index is less than 0 ($index is #{$index}).';
+		@return $list;
+	}
+	
+	@for $i from 1 to $index {
+		@if $index > $length {
+			$result: append($result, null);
+		}
+		@else {
+			$result: append($result, nth($list, $i));
+		}
+	}
+	
+	$result: append($result, $value);
+	
+	@if $index < $length {
+		@for $i from $index + 1 through $length {
+			$result: append($result, nth($list, $i));
+		}
+	}
+	
+	@return $result;
+}
+
+@function append-inner($list, $index, $value...) {
+	@return list-set($list, $index, join(nth($list, $index), $value));
+}
+
+@function join-inner($list, $index, $value) {
+	@return append-inner($list, $index, $value...);
+}
