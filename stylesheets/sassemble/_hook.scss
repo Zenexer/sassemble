@@ -1,0 +1,7 @@
+@charset 'utf-8';
+// Event-like hooks system.  Useful for setting variables in a sepcific order.
+
+@include require(sassemble map, sassemble assert);
+@include provide(sassemble hook);
+
+$-sasm-hook-hooks: map();
