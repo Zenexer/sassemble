@@ -2,11 +2,10 @@
 # More info at https://github.com/guard/guard#readme
 
 guard 'bundler' do
-  watch('Gemfile')
-  # Uncomment next line if Gemfile contain `gemspec' command
-  # watch(/^.+\.gemspec/)
+  watch /^Gemfile$/
 end
 
 guard 'compass' do
-  watch('^src/(.*)\.s[ac]ss')
+  watch %r{^sass/(.*)\.s[ac]ss$}
+  watch /^config\.rb$/
 end
