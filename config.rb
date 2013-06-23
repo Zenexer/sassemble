@@ -4,6 +4,7 @@
 # Note that these settings only affect development preview code, and have no effect
 # on the output of implementing applications.  Therefore, these settings are
 # optimized for debugging.
+environment = :development;
 
 # Set this to the root of your project when deployed:
 http_path = "/"
