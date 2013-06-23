@@ -3,22 +3,22 @@
 
 # Sass
 *.sassc
-.sass-cache
+.sass-cache/
 
 # Standard ruby ignores
 *.rbc
 capybara-*.html
 .rspec
 .bundle
-/vendor/bundle
-/db/*.sqlite3
-/public/system/*
-/coverage/
+vendor/
+db/*.sqlite3
+public/system/
+coverage/
 **.orig
 rerun.txt
 pickle-email-*.html
 
 # Standard ignores
 *.lock
-log/*
-tmp/*
+log/
+tmp/
