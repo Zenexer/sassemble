@@ -1,9 +1,15 @@
-*.rbc
+# Notepad++
+*.workspace
+
+# Sass
 *.sassc
 .sass-cache
+
+# Standard ruby ignores
+*.rbc
 capybara-*.html
 .rspec
-/.bundle
+.bundle
 /vendor/bundle
 /log/*
 /tmp/*
