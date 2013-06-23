@@ -1,6 +1,7 @@
 @charset 'utf-8';
 // Improves usability of Sass lists.
 
+@include require(sassemble assert);
 @include provide(sassemble list);
 
 @function empty($values...) {

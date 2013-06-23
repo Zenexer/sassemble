@@ -1,7 +1,7 @@
 @charset 'utf-8';
 // Adds multi-dimensional maps (object trees) to Sass.
 
-@include require(sassemble list, sassemble hash);
+@include require(sassemble list, sassemble hash, sassemble assert);
 @include provide(sassemble map);
 
 @function map($object: null) {

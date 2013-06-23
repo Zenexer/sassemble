@@ -13,6 +13,7 @@
 	'sassemble/assert',
 	'sassemble/list',
 	'sassemble/hash',
-	'sassemble/map';
+	'sassemble/map',
+	'sassemble/hook';
 
 @include provide(sassemble);

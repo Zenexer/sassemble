@@ -1,7 +1,7 @@
 @charset 'utf-8';
 // Adds one-dimensional hash maps to Sass.
 
-@include require(sassemble list);
+@include require(sassemble list, sassemble assert);
 @include provide(sassemble hash);
 
 @function hash($object: null) {
