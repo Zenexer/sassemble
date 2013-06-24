@@ -4,13 +4,11 @@ gem 'sass'
 gem 'compass'
 
 group :guard, :development do
-	gem 'wdm' # For some reason, this doesn't always get included automatically.
-	
+	# Bundler doesn't seem to handle these properly.  It still has a tendency to disregard
+	gem 'wdm'
+	gem 'pry', :platforms => [:mswin, :mingw], :git => 'https://github.com/pry/pry.git'
+
 	gem 'guard'
 	gem 'guard-compass'
 	gem 'guard-bundler'
-end
-
-platforms :mswin, :mingw do
-	gem 'pry', :groups => [:guard, :development], :git => 'https://github.com/pry/pry.git'
 end
